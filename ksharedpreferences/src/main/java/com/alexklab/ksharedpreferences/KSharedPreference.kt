@@ -31,7 +31,7 @@ open class KSharedPreference<T : Any>(
                 is String -> getString(key, defaultValue)
                 is Set<*> -> {
                     (defaultValue as? Set<String>)
-                        ?.apply { getStringSet(key, this) }
+                        ?.let { getStringSet(key, it) }
                         ?: throw IllegalArgumentException("Unsupported value type: ${defaultValue.javaClass}, only StringSet allowed ")
                 }
                 else -> throw IllegalArgumentException("Unsupported value type: ${defaultValue.javaClass}")
@@ -53,7 +53,7 @@ open class KSharedPreference<T : Any>(
                 is String -> putString(key, value)
                 is Set<*> -> {
                     (value as? Set<String>)
-                        ?.apply { putStringSet(key, this) }
+                        ?.let { putStringSet(key, it) }
                         ?: throw IllegalArgumentException("Unsupported value type: ${defaultValue.javaClass}, only StringSet allowed ")
                 }
                 else -> throw IllegalArgumentException("Unsupported value type: ${defaultValue.javaClass}")

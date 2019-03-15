@@ -14,6 +14,9 @@ class MainActivity : AppCompatActivity() {
         Log.d("onCreate", "lastUsageTime: ${Date(Prefs.lastUsageTime)}")
         Log.d("onCreate", "userID: ${Prefs.userID}")
         Prefs.lastUsageTime = Date().time
+        val ids = Prefs.ids.apply { add("${Prefs.lastUsageTime}") }
+        Prefs.ids = ids
+        Log.d("onCreate", "ids: $ids")
     }
 }
 
@@ -21,4 +24,5 @@ object Prefs {
 
     var userID by KSharedPreference(defaultValue = "NONE")
     var lastUsageTime: Long by KSharedPreference(defaultValue = 0L)
+    var ids by KSharedPreference(defaultValue = HashSet<String>())
 }

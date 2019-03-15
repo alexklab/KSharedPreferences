@@ -5,7 +5,7 @@ import android.content.Context
 import android.util.Log
 import java.lang.ref.WeakReference
 
-object PreferensesContextHolder {
+object PreferencesContextHolder {
 
     private var contextRef: WeakReference<Context>? = null
 
@@ -28,7 +28,7 @@ object PreferensesContextHolder {
             .getDeclaredMethod("currentApplication")
             .invoke(null) as? Context
 
-        Log.w("PreferensesContextHolder", "Initialization via reflect API. $applicationContext")
+        Log.w("PreferencesContext", "Initialization via reflect API. $applicationContext")
         init(applicationContext)
 
         return applicationContext

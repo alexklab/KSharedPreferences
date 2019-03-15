@@ -23,11 +23,11 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "androidx.core:core-ktx:$ktx_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
-
+    //implementation "com.github.alexklab:KSharedPreferences:$ksharedproperties_version"
     implementation project(':ksharedpreferences')
 
     testImplementation "junit:junit:$junit_version"

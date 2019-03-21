@@ -3,7 +3,7 @@ package com.alexklab.ksharedpreferences
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class ExtensionsKtTest {
+class StringToScreamingSnakeCaseExtensionTest {
 
     @Test
     fun `toScreamingSnakeCase(camelCaseValue) should return CAMEL_CASE_VALUE`() {

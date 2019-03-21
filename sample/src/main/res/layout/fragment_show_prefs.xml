@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:padding="16dp"
+              android:background="@android:color/darker_gray"
+              android:layout_height="match_parent">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show Preference Fragment"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            tools:ignore="HardcodedText"/>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Numbers Preference"
+              android:layout_marginTop="16dp"
+              android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+              tools:ignore="HardcodedText"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            tools:text="asdfasdf"
+            android:id="@+id/numberText"/>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Text Preference"
+              android:layout_marginTop="16dp"
+              android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+              tools:ignore="HardcodedText"/>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="asdfasfasdf"
+            android:ems="10"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:id="@+id/nameText"
+            tools:ignore="HardcodedText"/>
+    <Switch
+            android:layout_marginTop="16dp"
+            android:text="Live Preference trigger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/trigger"
+            android:enabled="false"
+            tools:ignore="HardcodedText"/>
+
+</LinearLayout>

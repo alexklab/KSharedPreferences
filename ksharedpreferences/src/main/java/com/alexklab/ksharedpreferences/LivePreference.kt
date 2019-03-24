@@ -7,6 +7,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 
+/**
+ * Class for implementation LiveData behavior with SharedPreference
+ */
 class LivePreference<T : Any>(
     val key: String,
     val defaultValue: T,

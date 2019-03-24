@@ -27,8 +27,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "androidx.core:core-ktx:$ktx_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
-    //implementation "com.github.alexklab:KSharedPreferences:$ksharedpreferences_version"
-    implementation project(':ksharedpreferences')
+    implementation "com.github.alexklab:KSharedPreferences:$ksharedpreferences_version"
 
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test:runner:$test_runner_version"

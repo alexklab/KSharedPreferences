@@ -5,32 +5,32 @@ import android.content.Context
 import android.util.Log
 import java.lang.ref.WeakReference
 
-object PreferencesContextHolder {
+object ApplicationContextHolder {
 
-    private var contextRef: WeakReference<Context>? = null
+    private var applicationContextRef: WeakReference<Context>? = null
 
-    val context: Context
-        get() = contextRef?.get()
-            ?: initAndGetContextWithReflection()
+    val applicationContext: Context
+        get() = applicationContextRef?.get()
+            ?: getApplicationContextWithReflection()
             ?: throw IllegalStateException("Initialization required: context undefined")
 
     fun init(context: Context?) {
         context
             ?.applicationContext
-            ?.let { contextRef = WeakReference(it) }
+            ?.let { applicationContextRef = WeakReference(it) }
     }
 
     @SuppressLint("PrivateApi")
-    private fun initAndGetContextWithReflection(): Context? {
+    private fun getApplicationContextWithReflection(): Context? {
         // Fallback, should only run once per non default process.
         val activityThread = Class.forName("android.app.ActivityThread")
-        val applicationContext = activityThread
+        val context = activityThread
             .getDeclaredMethod("currentApplication")
             .invoke(null) as? Context
 
-        Log.w("PreferencesContext", "Initialization via reflect API. $applicationContext")
-        init(applicationContext)
+        Log.w("PreferencesContext", "Initialization via reflect API. $context")
+        init(context)
 
-        return applicationContext
+        return context
     }
 }

@@ -11,9 +11,7 @@ object Prefs {
 
     var text: String by SharedPreferenceProperty(defaultValue = "")
 
-    val trigger: LivePreference<Boolean> by LivePreferenceProperty(
-        defaultValue = false
-    )
+    val trigger: LivePreference<Boolean> by LivePreferenceProperty(defaultValue = false)
 
     var lastUsageTime: Long by SharedPreferenceProperty(defaultValue = Date().time)
 }

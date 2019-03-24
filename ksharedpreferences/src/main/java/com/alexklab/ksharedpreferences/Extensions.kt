@@ -14,10 +14,9 @@ inline fun SharedPreferences.edit(action: SharedPreferences.Editor.() -> Unit) {
 fun String.toScreamingSnakeCase(divider: String = "_"): String {
     if (isEmpty()) return this
 
-
     val builder = StringBuilder()
 
-    this.forEachIndexed { index, char ->
+    forEachIndexed { index, char ->
         if (char.isUpperCase()) {
             if (index != 0 && (isLowerCaseOrFalseAt(index + 1) || isLowerCaseOrFalseAt(index - 1))) {
                 builder.append(divider)

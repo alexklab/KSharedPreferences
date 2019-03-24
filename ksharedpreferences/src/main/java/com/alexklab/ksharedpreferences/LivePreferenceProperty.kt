@@ -11,9 +11,18 @@ class LivePreferenceProperty<T : Any>(
     mode: Int = Context.MODE_PRIVATE
 ) : PreferenceProperty<T>(key, defaultValue, fileName, mode), ReadOnlyProperty<Any, LivePreference<T>> {
 
-    override fun getValue(thisRef: Any, property: KProperty<*>): LivePreference<T> = LivePreference(
-        key = getPreferenceKey(property),
-        defaultValue = defaultValue,
-        prefs = prefs
-    )
+    private lateinit var livePreference: LivePreference<T>
+
+    override fun getValue(thisRef: Any, property: KProperty<*>): LivePreference<T> {
+        if (::livePreference.isInitialized) {
+            livePreference.registerOnSharedPreferenceChangeListener()
+        } else {
+            livePreference = LivePreference(
+                key = getPreferenceKey(property),
+                defaultValue = defaultValue,
+                prefs = prefs
+            )
+        }
+        return livePreference
+    }
 }

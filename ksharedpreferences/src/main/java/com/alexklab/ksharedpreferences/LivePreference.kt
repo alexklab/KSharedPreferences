@@ -19,21 +19,19 @@ class LivePreference<T : Any>(
 
     private val data = MutableLiveData<T>()
 
-    private val onPreferenceChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, preferenceKey ->
-        if (key == preferenceKey) {
-            val value = prefs.getValue(key, defaultValue)
-            if (value != data.value) {
-                data.value = value
+    private val onPreferenceChangeListener =
+        SharedPreferences.OnSharedPreferenceChangeListener { _, preferenceKey ->
+            if (key == preferenceKey) {
+                setLivePreferenceValue()
             }
         }
-    }
 
     init {
         registerOnSharedPreferenceChangeListener()
     }
 
     fun registerOnSharedPreferenceChangeListener() {
-        data.value = prefs.getValue(key, defaultValue)
+        setLivePreferenceValue()
         prefs.registerOnSharedPreferenceChangeListener(onPreferenceChangeListener)
     }
 
@@ -198,5 +196,12 @@ class LivePreference<T : Any>(
      * @return true if this LiveData has active observers
      */
     fun hasActiveObservers(): Boolean = data.hasActiveObservers()
+
+    private fun setLivePreferenceValue() {
+        val value = prefs.getValue(key, defaultValue)
+        if (value != data.value) {
+            data.value = value
+        }
+    }
 
 }

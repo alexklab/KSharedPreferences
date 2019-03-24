@@ -14,7 +14,7 @@ abstract class PreferenceProperty<T : Any>(
     protected var preferencePropertyKey: String? = null
 
     protected val prefs: SharedPreferences by lazy {
-        PreferencesContextHolder.context
+        ApplicationContextHolder.applicationContext
             .getSharedPreferences(preferenceFileName, operatingMode)
     }
 

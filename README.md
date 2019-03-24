@@ -23,7 +23,7 @@ Usage
 #### SharedPreference properties 
 ```kotlin
 object Prefs {
-    var isNotificationsEnabled: Booleab by SharedPreferenceProperty(defaultValue = false) 
+    var isNotificationsEnabled: Boolean by SharedPreferenceProperty(defaultValue = false) 
 }
 
 class EditPrefsFragment: Fragment(){
@@ -42,16 +42,18 @@ class EditPrefsFragment: Fragment(){
 #### LivePreference properties
 ```kotlin
 object Prefs {
-    val darkThemeTrigger: LivePreference<Boolean> by LivePreferenceProperty(defaultValue = false)
+    val darkThemeTrigger by LivePreferenceProperty(defaultValue = false)
 }
 
-FragmentA: Fragment() {
+class FragmentA: Fragment() {
     
-    // Set preference value
-    Prefs.darkThemeTrigger.value = true
+    private fun onPreferenceChanged(isEnabled: Boolean) {
+        // Set preference value
+        Prefs.darkThemeTrigger.value = isEnabled
+    }
 }
 
-FragmentB: Fragment() {
+class FragmentB: Fragment() {
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Observe preference changes

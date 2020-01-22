@@ -1,6 +1,5 @@
 package com.alexklab.ksharedpreferences
 
-import android.content.Context
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -10,17 +9,13 @@ import kotlin.reflect.KProperty
  * Allowed types: Boolean, Int, Long, Float, String, Set<String>
  *
  * @param T the type of the preference value.
- * @param key the custom preference key, if this param is null then key will be generated from property name
  * @param defaultValue the preference default value
- * @param fileName the preferences file name.
- * @param operatingMode the preferences file operating mode
+ * @param key the custom preference key, if this param is null then key will be generated from property name
  */
 open class SharedPreferenceProperty<T : Any>(
-    key: String? = null,
     defaultValue: T,
-    fileName: String = DEFAULT_PREFERENCE_FILE_NAME,
-    operatingMode: Int = Context.MODE_PRIVATE
-) : PreferenceProperty<T>(key, defaultValue, fileName, operatingMode), ReadWriteProperty<Any, T> {
+    key: String? = null
+) : PreferenceProperty<T>(defaultValue, key), ReadWriteProperty<PreferencesHolder, T> {
 
     /**
      * Returns the value of the property for the given SharedPreference.
@@ -28,8 +23,8 @@ open class SharedPreferenceProperty<T : Any>(
      * @param property the metadata for the property.
      * @return the SharedPreference value.
      */
-    override fun getValue(thisRef: Any, property: KProperty<*>): T {
-        return prefs.getValue(getPreferenceKey(property), defaultValue)
+    override fun getValue(thisRef: PreferencesHolder, property: KProperty<*>): T {
+        return thisRef.prefs.value.getValue(getPreferenceKey(property), defaultValue)
     }
 
     /**
@@ -38,7 +33,7 @@ open class SharedPreferenceProperty<T : Any>(
      * @param property the metadata for the property.
      * @param value the value to set.
      */
-    override fun setValue(thisRef: Any, property: KProperty<*>, value: T) {
-        prefs.edit { putValue(getPreferenceKey(property), value) }
+    override fun setValue(thisRef: PreferencesHolder, property: KProperty<*>, value: T) {
+        thisRef.prefs.value.edit { putValue(getPreferenceKey(property), value) }
     }
 }

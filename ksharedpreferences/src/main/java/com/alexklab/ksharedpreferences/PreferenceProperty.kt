@@ -1,30 +1,19 @@
 package com.alexklab.ksharedpreferences
 
-import android.content.Context
-import android.content.SharedPreferences
 import kotlin.reflect.KProperty
 
 /**
  * Base class for preference property
  *
- * @param preferenceKey the custom preference key, if this param is null then key will be generated from property name
  * @param defaultValue the preference default value
- * @param preferenceFileName the preferences file name.
- * @param operatingMode the preferences file operating mode
+ * @param preferenceKey the custom preference key, if this param is null then key will be generated from property name
  */
-abstract class PreferenceProperty<T : Any>(
-    val preferenceKey: String? = null,
+abstract class PreferenceProperty<T>(
     val defaultValue: T,
-    val preferenceFileName: String = DEFAULT_PREFERENCE_FILE_NAME,
-    val operatingMode: Int = Context.MODE_PRIVATE
+    private val preferenceKey: String? = null
 ) {
 
-    protected var preferencePropertyKey: String? = null
-
-    protected val prefs: SharedPreferences by lazy {
-        ApplicationContextHolder.applicationContext
-            .getSharedPreferences(preferenceFileName, operatingMode)
-    }
+    private lateinit var preferencePropertyKey: String
 
     /**
      * Returns the preference key.
@@ -34,14 +23,11 @@ abstract class PreferenceProperty<T : Any>(
      * @return the preference key
      */
     protected fun getPreferenceKey(property: KProperty<*>): String {
-        return preferenceKey
-            ?: preferencePropertyKey
-            ?: property.name
-                .toScreamingSnakeCase()
-                .apply { preferencePropertyKey = this }
+        if (!::preferencePropertyKey.isInitialized) {
+            preferencePropertyKey = preferenceKey ?: property.name.toScreamingSnakeCase()
+        }
+
+        return preferencePropertyKey
     }
 
-    companion object {
-        const val DEFAULT_PREFERENCE_FILE_NAME = "prefs"
-    }
 }

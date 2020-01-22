@@ -42,9 +42,9 @@ fun <T : Any> SharedPreferences.getValue(key: String, defaultValue: T): T = when
     is Set<*> -> if (defaultValue.all { it is String }) {
         getStringSet(key, defaultValue as Set<String>) as T
     } else {
-        throw IllegalArgumentException("Unsupported value type: ${defaultValue.javaClass}, only StringSet allowed ")
+        throw ClassCastException("Unsupported value type: ${defaultValue.javaClass}, only StringSet allowed ")
     }
-    else -> throw IllegalArgumentException("Unsupported value type: ${defaultValue.javaClass}")
+    else -> throw ClassCastException("Unsupported value type: ${defaultValue.javaClass}")
 }
 
 @Suppress("UNCHECKED_CAST")
@@ -57,7 +57,7 @@ fun <T : Any> SharedPreferences.Editor.putValue(key: String, value: T): SharedPr
     is Set<*> -> if (value.all { it is String }) {
         putStringSet(key, value as Set<String>)
     } else {
-        throw IllegalArgumentException("Unsupported value type: ${value.javaClass}, only StringSet allowed ")
+        throw ClassCastException("Unsupported value type: ${value.javaClass}, only StringSet allowed ")
     }
-    else -> throw IllegalArgumentException("Unsupported value type: ${value.javaClass}")
+    else -> throw ClassCastException("Unsupported value type: ${value.javaClass}")
 }

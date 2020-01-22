@@ -13,14 +13,17 @@ import androidx.lifecycle.Observer
 class LivePreference<T : Any>(
     val key: String,
     val defaultValue: T,
-    private val prefs: SharedPreferences
+    private val prefs: Lazy<SharedPreferences>
 ) {
 
     var value: T
-        get() = prefs.getValue(key, defaultValue)
-        set(value) = prefs.edit { putValue(key, value) }
+        get() = delegate.value ?: defaultValue
+        set(newValue) {
+            delegate.value = value
+            prefs.value.edit { putValue(key, newValue) }
+        }
 
-    private val data = MutableLiveData<T>()
+    private val delegate = MutableLiveData<T>()
 
     private val onPreferenceChangeListener =
         SharedPreferences.OnSharedPreferenceChangeListener { _, preferenceKey ->
@@ -30,16 +33,16 @@ class LivePreference<T : Any>(
         }
 
     init {
+        setLivePreferenceValue()
         registerOnSharedPreferenceChangeListener()
     }
 
     fun registerOnSharedPreferenceChangeListener() {
-        setLivePreferenceValue()
-        prefs.registerOnSharedPreferenceChangeListener(onPreferenceChangeListener)
+        prefs.value.registerOnSharedPreferenceChangeListener(onPreferenceChangeListener)
     }
 
     fun unregisterOnSharedPreferenceChangeListener() {
-        prefs.unregisterOnSharedPreferenceChangeListener(onPreferenceChangeListener)
+        prefs.value.unregisterOnSharedPreferenceChangeListener(onPreferenceChangeListener)
     }
 
     /**
@@ -71,9 +74,7 @@ class LivePreference<T : Any>(
      * @param observer The observer that will receive the events
      */
     @MainThread
-    fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
-        data.observe(owner, observer)
-    }
+    fun observe(owner: LifecycleOwner, observer: Observer<in T>) = delegate.observe(owner, observer)
 
     /**
      * Adds the given observer to the observers list within the lifespan of the given
@@ -104,9 +105,7 @@ class LivePreference<T : Any>(
      * @param observer The observer that will receive the events
      */
     @MainThread
-    fun observe(owner: () -> Lifecycle, observer: (T) -> Unit) {
-        data.observe(owner, observer)
-    }
+    fun observe(owner: () -> Lifecycle, observer: (T) -> Unit) = delegate.observe(owner, observer)
 
     /**
      * Adds the given observer to the observers list. This call is similar to
@@ -123,9 +122,7 @@ class LivePreference<T : Any>(
      * @param observer The observer that will receive the events
      */
     @MainThread
-    fun observeForever(observer: Observer<in T>) {
-        data.observeForever(observer)
-    }
+    fun observeForever(observer: Observer<in T>) = delegate.observeForever(observer)
 
     /**
      * Adds the given observer to the observers list. This call is similar to
@@ -142,9 +139,7 @@ class LivePreference<T : Any>(
      * @param observer The observer that will receive the events
      */
     @MainThread
-    fun observeForever(observer: (T) -> Unit) {
-        data.observeForever(observer)
-    }
+    fun observeForever(observer: (T) -> Unit) = delegate.observeForever(observer)
 
     /**
      * Removes the given observer from the observers list.
@@ -152,9 +147,7 @@ class LivePreference<T : Any>(
      * @param observer The Observer to receive events.
      */
     @MainThread
-    fun removeObserver(observer: Observer<in T>) {
-        data.removeObserver(observer)
-    }
+    fun removeObserver(observer: Observer<in T>) = delegate.removeObserver(observer)
 
     /**
      * Removes the given observer from the observers list.
@@ -162,9 +155,7 @@ class LivePreference<T : Any>(
      * @param observer The Observer to receive events.
      */
     @MainThread
-    fun removeObserver(observer: (T) -> Unit) {
-        data.removeObserver(observer)
-    }
+    fun removeObserver(observer: (T) -> Unit) = delegate.removeObserver(observer)
 
     /**
      * Removes all observers that are tied to the given {@link LifecycleOwner}.
@@ -172,9 +163,7 @@ class LivePreference<T : Any>(
      * @param owner The {@code LifecycleOwner} scope for the observers to be removed.
      */
     @MainThread
-    fun removeObservers(owner: LifecycleOwner) {
-        data.removeObservers(owner)
-    }
+    fun removeObservers(owner: LifecycleOwner) = delegate.removeObservers(owner)
 
     /**
      * Removes all observers that are tied to the given {@link LifecycleOwner}.
@@ -182,28 +171,26 @@ class LivePreference<T : Any>(
      * @param owner The {@code LifecycleOwner} scope for the observers to be removed.
      */
     @MainThread
-    fun removeObservers(owner: () -> Lifecycle) {
-        data.removeObservers(owner)
-    }
+    fun removeObservers(owner: () -> Lifecycle) = delegate.removeObservers(owner)
 
     /**
      * Returns true if this LiveData has observers.
      *
      * @return true if this LiveData has observers
      */
-    fun hasObservers(): Boolean = data.hasObservers()
+    fun hasObservers(): Boolean = delegate.hasObservers()
 
     /**
      * Returns true if this LiveData has active observers.
      *
      * @return true if this LiveData has active observers
      */
-    fun hasActiveObservers(): Boolean = data.hasActiveObservers()
+    fun hasActiveObservers(): Boolean = delegate.hasActiveObservers()
 
     private fun setLivePreferenceValue() {
-        val value = prefs.getValue(key, defaultValue)
-        if (value != data.value) {
-            data.value = value
+        val value = prefs.value.getValue(key, defaultValue)
+        if (value != delegate.value) {
+            delegate.value = value
         }
     }
 

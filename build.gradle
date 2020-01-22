@@ -5,8 +5,8 @@ buildscript {
     ext {
         // App version
         group_name = 'com.github.alexklab.KSharedPreferences'
-        versionName = '1.1.0' // X.Y.Z; X = Major, Y = minor, Z = Patch level
-        versionCode = 1010 // XYZZ
+        versionName = '1.2.0' // X.Y.Z; X = Major, Y = minor, Z = Patch level
+        versionCode = 1020 // XYZZ
 
         // Sdk and tools
         compileSdkVersion = 28
@@ -16,15 +16,15 @@ buildscript {
         // App dependencies
         ksharedpreferences_version = '1.1.0'
         android_arch_version = '2.0.0'
-        appcompat_version = '1.1.0-alpha03'
+        appcompat_version = '1.1.0'
         constraintlayout_version = '1.1.3'
         espresso_version = '3.2.0-alpha02'
         junit_version = '4.12'
-        gradle_version = '3.3.2'
+        gradle_version = '3.5.3'
         gradle_plugin_version = '2.1'
-        kotlin_version = '1.3.21'
-        ktx_version = '1.1.0-alpha05'
-        lifecycle_version = '2.0.0'
+        kotlin_version = '1.3.61'
+        ktx_version = '1.1.0'
+        lifecycle_version = '2.1.0'
         material_version = '1.1.0-alpha04'
         test_runner_version = '1.1.2-alpha02'
         kluent_version = '1.38'

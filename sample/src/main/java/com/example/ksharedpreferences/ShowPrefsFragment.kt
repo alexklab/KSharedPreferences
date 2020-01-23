@@ -23,7 +23,7 @@ class ShowPrefsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUp()
-        updateUI(Prefs.trigger.value)
+        updateUI(Prefs.trigger.value ?: false)
     }
 
     private fun updateUI(isChecked: Boolean) {

@@ -1,6 +1,6 @@
 package com.example.ksharedpreferences
 
-import com.alexklab.ksharedpreferences.LivePreference
+import androidx.lifecycle.MutableLiveData
 import com.alexklab.ksharedpreferences.LivePreferenceProperty
 import com.alexklab.ksharedpreferences.SharedPreferenceProperty
 import com.alexklab.ksharedpreferences.SharedPreferencesHolder
@@ -12,7 +12,7 @@ object Prefs : SharedPreferencesHolder() {
 
     var text: String by SharedPreferenceProperty(defaultValue = "")
 
-    val trigger: LivePreference<Boolean> by LivePreferenceProperty(defaultValue = false)
+    val trigger: MutableLiveData<Boolean> by LivePreferenceProperty(defaultValue = false)
 
     var lastUsageTime: Long by SharedPreferenceProperty(defaultValue = Date().time)
 }

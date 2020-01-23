@@ -28,7 +28,7 @@ class EditPrefsFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun updateUI() {
-        trigger.isChecked = Prefs.trigger.value
+        trigger.isChecked = Prefs.trigger.value ?: false
         nameText.setText(Prefs.text)
         numberText.setText(Prefs.uid.toString())
     }
